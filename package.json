@@ -1,0 +1,19 @@
+{
+  "name": "lomreader-monorepo",
+  "private": true,
+  "packageManager": "yarn@4.6.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:playground": "yarn workspace @lomreader/playground dev",
+    "dev:server": "yarn workspace @lomreader/epub-server dev",
+    "dev": "yarn dev:server & yarn dev:playground",
+    "build": "yarn workspace lomreader build",
+    "build:playground": "yarn workspace @lomreader/playground build"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
