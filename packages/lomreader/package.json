@@ -3,13 +3,23 @@
   "version": "0.0.1",
   "description": "An open-source EPUB 3.0 reader for JavaScript environments",
   "type": "module",
-  "main": "./src/index.js",
+  "main": "./dist/lomreader.js",
+  "module": "./dist/lomreader.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/lomreader.js"
+    }
   },
   "files": [
-    "src"
+    "dist"
   ],
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
   "keywords": [
     "epub",
     "epub3",
@@ -17,5 +27,10 @@
     "accessibility",
     "ebook"
   ],
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.5.0"
+  }
 }

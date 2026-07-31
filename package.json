@@ -9,9 +9,11 @@
   "scripts": {
     "dev:playground": "yarn workspace @lomreader/playground dev",
     "dev:server": "yarn workspace @lomreader/epub-server dev",
+    "dev:library": "yarn workspace lomreader dev",
     "dev": "yarn dev:server & yarn dev:playground",
     "build": "yarn workspace lomreader build",
-    "build:playground": "yarn workspace @lomreader/playground build"
+    "build:playground": "yarn workspace @lomreader/playground build",
+    "typecheck": "yarn workspaces foreach -A run typecheck"
   },
   "engines": {
     "node": ">=18"

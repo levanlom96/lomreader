@@ -1,9 +1,15 @@
 import { createReader } from 'lomreader';
 import './style.css';
 
+const app = document.querySelector('#app');
+
+if (!app) {
+  throw new Error('Missing #app element');
+}
+
 const reader = createReader();
 
-document.querySelector('#app').innerHTML = `
+app.innerHTML = `
   <main class="playground">
     <header>
       <h1>Lomreader Playground</h1>

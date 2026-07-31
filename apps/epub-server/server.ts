@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: '*',
     methods: ['GET', 'HEAD', 'OPTIONS'],
-  })
+  }),
 );
 
 app.use('/epubs', express.static(path.join(__dirname, 'public', 'epubs')));
