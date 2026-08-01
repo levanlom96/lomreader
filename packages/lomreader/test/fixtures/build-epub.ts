@@ -31,6 +31,12 @@ function buildOpf(options: Required<MinimalEpubOptions>): string {
     `<item id="app-js" href="scripts/app.js" media-type="text/javascript"/>`,
   ];
 
+  if (options.spineIdrefs.includes('chapter2')) {
+    manifestItems.push(
+      `<item id="chapter2" href="text/chapter-2.xhtml" media-type="application/xhtml+xml"/>`,
+    );
+  }
+
   const spineItems = options.spineIdrefs.map(
     (idref) => `<itemref idref="${idref}"/>`,
   );
@@ -126,6 +132,12 @@ export function buildMinimalEpub(options: MinimalEpubOptions = {}): Uint8Array {
 
   if (resolved.includeFallback) {
     files[`${packageDir}media/clip.mp4`] = strToU8('fake-video');
+  }
+
+  if (resolved.spineIdrefs.includes('chapter2')) {
+    files[`${packageDir}text/chapter-2.xhtml`] = strToU8(
+      defaultChapterHtml('<p>Second chapter</p>'),
+    );
   }
 
   return zipSync(files);

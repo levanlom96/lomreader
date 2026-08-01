@@ -35,6 +35,20 @@ header h1 {
   font-weight: 600;
 }
 
+.layout-field {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.layout-field select {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  background: #fff;
+}
+
 .url-field input {
   font: inherit;
   padding: 0.5rem 0.65rem;
@@ -87,6 +101,28 @@ button:hover {
   position: relative;
   width: 100%;
   min-height: 28rem;
+}
+
+.lomreader-spread {
+  display: flex;
+  width: 100%;
+  min-height: 28rem;
+}
+
+.lomreader-spread--1-up .lomreader-content-frame {
+  flex: 1 1 100%;
+}
+
+.lomreader-spread--2-up .lomreader-content-frame {
+  flex: 1 1 50%;
+  width: 50%;
+  min-height: 28rem;
+  border: 0;
+  border-right: 1px solid #e5e5e5;
+}
+
+.lomreader-spread--2-up .lomreader-content-frame:last-child {
+  border-right: 0;
 }
 
 .lomreader-content-frame {

@@ -1,4 +1,4 @@
-import { createReader, createReaderHost, type ReaderHost } from 'lomreader';
+import { createReader, createReaderHost, type ReaderHost, type SpreadLayout } from 'lomreader';
 import './style.css';
 
 const DEFAULT_EPUB_URL = 'http://localhost:3001/epubs/hypatia.epub';
@@ -30,6 +30,13 @@ function renderShell(): void {
             data-testid="epub-url-input"
           />
         </label>
+        <label class="layout-field">
+          Layout
+          <select id="spread-layout" data-testid="spread-layout">
+            <option value="1-up">1 page</option>
+            <option value="2-up">2 page spread</option>
+          </select>
+        </label>
         <button type="button" id="load-book" data-testid="load-book">Load book</button>
       </section>
       <p id="status" class="status" data-testid="reader-status">Enter a URL and load the book.</p>
@@ -57,6 +64,10 @@ function renderShell(): void {
   document.querySelector('#next-chapter')?.addEventListener('click', () => {
     void readerHost?.next().then(updatePosition);
   });
+
+  document.querySelector('#spread-layout')?.addEventListener('change', () => {
+    void applyLayout();
+  });
 }
 
 function setStatus(message: string, isError = false): void {
@@ -70,6 +81,12 @@ function setStatus(message: string, isError = false): void {
   status.classList.toggle('error', isError);
 }
 
+function getSelectedLayout(): SpreadLayout {
+  const select = document.querySelector('#spread-layout') as HTMLSelectElement | null;
+
+  return select?.value === '2-up' ? '2-up' : '1-up';
+}
+
 function updatePosition(): void {
   if (!readerHost) {
     return;
@@ -81,7 +98,22 @@ function updatePosition(): void {
     return;
   }
 
-  position.textContent = `${readerHost.getCurrentLinearIndex() + 1} / ${readerHost.getLinearSpineCount()}`;
+  const total = readerHost.getLinearSpineCount();
+  const left = readerHost.getCurrentLinearIndex() + 1;
+  const visibleCount = readerHost.getVisibleSpineIndices().length;
+  const right = visibleCount > 1 ? left + 1 : undefined;
+
+  position.textContent =
+    right !== undefined ? `${left}–${right} / ${total}` : `${left} / ${total}`;
+}
+
+async function applyLayout(): Promise<void> {
+  if (!readerHost) {
+    return;
+  }
+
+  await readerHost.setLayout(getSelectedLayout());
+  updatePosition();
 }
 
 async function loadBook(): Promise<void> {
@@ -102,7 +134,10 @@ async function loadBook(): Promise<void> {
   try {
     const reader = createReader();
     const publication = await reader.open(urlInput.value.trim());
-    readerHost = await createReaderHost(publication, { container });
+    readerHost = await createReaderHost(publication, {
+      container,
+      layout: getSelectedLayout(),
+    });
 
     readerHost.on('chapterchange', () => updatePosition());
     readerHost.on('error', (event) => setStatus(event.detail.message, true));

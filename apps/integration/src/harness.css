@@ -72,3 +72,20 @@ header h1 {
   min-height: 24rem;
   border: 0;
 }
+
+.lomreader-spread {
+  display: flex;
+  width: 100%;
+  min-height: 24rem;
+}
+
+.lomreader-spread--2-up .lomreader-content-frame {
+  flex: 1 1 50%;
+  width: 50%;
+  min-height: 24rem;
+  border-right: 1px solid #e5e5e5;
+}
+
+.lomreader-spread--2-up .lomreader-content-frame:last-child {
+  border-right: 0;
+}

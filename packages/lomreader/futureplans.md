@@ -38,10 +38,9 @@ flowchart TD
 
 ## Two-page spread (1-up / 2-up)
 
-- **ReaderHost** owns layout mode, not `ContentFrame`
-- v1: one iframe, one spine item
-- Future: **N content slots** (1–2 iframes or paginated slices of same chapter)
-- Single **AnnotationStore** + **OverlayLayer** mapped across all slots via locators
+- **ReaderHost** owns layout mode (`layout: '1-up' | '2-up'`)
+- **Implemented:** `ContentSpread` with 1–2 iframe slots; `spreadchange` event; prev/next steps by 2 in 2-up
+- **Future:** paginated slices within one XHTML chapter; single overlay mapped across slots via locators
 
 ---
 

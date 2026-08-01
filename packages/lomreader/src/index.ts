@@ -32,6 +32,12 @@ export {
   isRenderableSpineMediaType,
 } from './render/content-frame';
 export {
+  ContentSpread,
+  getSpreadLinearIndices,
+  getSpreadStartLinearIndex,
+  getSpreadStep,
+} from './render/spread-layout';
+export {
   ReaderHost,
   createReaderHost,
   getSpineItemRef,
@@ -43,4 +49,6 @@ export type {
   NavigateContext,
   ReaderHostEventMap,
   ReaderHostOptions,
+  SpreadChangeDetail,
+  SpreadLayout,
 } from './render/types';

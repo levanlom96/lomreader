@@ -7,10 +7,14 @@ test.describe('reader rendering', () => {
   });
 
   test('renders an iframe with EPUB chapter content', async ({ page }) => {
-    const iframe = page.frameLocator('[data-testid="reader-container"] iframe');
+    const iframe = page.frameLocator(
+      '[data-testid="reader-container"] iframe:not([hidden])',
+    );
 
     await expect(page.getByTestId('reader-toolbar')).toBeVisible();
-    await expect(page.locator('[data-testid="reader-container"] iframe')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="reader-container"] iframe:not([hidden])'),
+    ).toBeVisible();
 
     const bodyText = await iframe.locator('body').innerText();
 
