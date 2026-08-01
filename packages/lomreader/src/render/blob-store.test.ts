@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { loadArchive, readArchiveBytes } from '../epub/archive';
-import { parsePackageDocument } from '../epub/parse-package';
+import { readArchiveBytes } from '../epub/archive';
 import { BlobUrlStore, guessMediaType, resolveMediaType } from './blob-store';
 import { buildMinimalEpub } from '../../test/fixtures/build-epub';
 import { parseEpubBytes } from '../../test/helpers';
