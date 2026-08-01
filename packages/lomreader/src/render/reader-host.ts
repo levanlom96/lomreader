@@ -1,5 +1,12 @@
 import type { Publication, SpineItemRef } from '../types';
 import {
+  cfiRangeToDomRange,
+  domRangeToCfiPoints,
+  generateCfi,
+  resolveCfi as resolvePublicationCfi,
+  type CfiResolvedTarget,
+} from '../cfi';
+import {
   ContentFrame,
   findInitialSpineIndex,
   getLinearSpineIndices,
@@ -276,6 +283,50 @@ export class ReaderHost extends EventTarget {
     await this.showSpreadAtLinearIndex(previousSpreadStart);
   }
 
+  async resolveCfi(cfi: string): Promise<CfiResolvedTarget> {
+    this.assertActive();
+
+    return resolvePublicationCfi(this.publication, cfi, {
+      getDocument: async (documentPath) => this.getLiveDocument(documentPath),
+    });
+  }
+
+  async generateCfiFromRange(range: Range, spineIndex = this.currentSpineIndex): Promise<string> {
+    this.assertActive();
+
+    if (spineIndex < 0) {
+      throw new Error('Cannot generate CFI without a loaded spine item');
+    }
+
+    const { start, end } = domRangeToCfiPoints(range);
+
+    return generateCfi(this.publication, spineIndex, { start, end });
+  }
+
+  async getSelectionCfi(): Promise<string | null> {
+    this.assertActive();
+
+    const frame = this.contentSpread.getPrimaryFrameElement();
+    const selection = frame.contentDocument?.getSelection();
+
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+      return null;
+    }
+
+    return this.generateCfiFromRange(selection.getRangeAt(0)!);
+  }
+
+  async goToCfi(cfi: string): Promise<CfiResolvedTarget> {
+    this.assertActive();
+
+    const target = await this.resolveCfi(cfi);
+
+    await this.showSpineIndex(target.spineIndex);
+    this.applyResolvedTarget(target);
+
+    return target;
+  }
+
   destroy(): void {
     if (this.destroyed) {
       return;
@@ -327,6 +378,62 @@ export class ReaderHost extends EventTarget {
     if (this.destroyed) {
       throw new Error('ReaderHost has been destroyed');
     }
+  }
+
+  private async getLiveDocument(documentPath: string): Promise<Document | null> {
+    for (const frame of this.contentSpread.getFrameElements()) {
+      const document = frame.contentDocument;
+
+      if (!document?.documentElement) {
+        continue;
+      }
+
+      const visiblePaths = this.getVisibleSpineIndices().map(
+        (spineIndex) => this.publication.spine.itemrefs[spineIndex]!.item.path,
+      );
+
+      if (visiblePaths.includes(documentPath)) {
+        return document;
+      }
+    }
+
+    return null;
+  }
+
+  private applyResolvedTarget(target: CfiResolvedTarget): void {
+    const frame = this.contentSpread.getPrimaryFrameElement();
+    const document = frame.contentDocument;
+
+    if (!document) {
+      return;
+    }
+
+    if ('end' in target) {
+      const range = cfiRangeToDomRange(document, target.start, target.end);
+      const selection = document.getSelection();
+
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      frame.contentWindow?.scrollTo(0, range.getBoundingClientRect().top);
+
+      return;
+    }
+
+    const range = document.createRange();
+    const node = target.node as unknown as Node;
+
+    if (node.nodeType === Node.TEXT_NODE) {
+      range.setStart(node, Math.min(target.offset, node.textContent?.length ?? 0));
+    } else {
+      range.setStart(node, Math.min(target.offset, node.childNodes.length));
+    }
+
+    range.collapse(true);
+
+    const selection = document.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    frame.contentWindow?.scrollTo(0, range.getBoundingClientRect().top);
   }
 }
 

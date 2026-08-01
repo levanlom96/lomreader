@@ -8,6 +8,7 @@ Contributor documentation for the `lomreader` npm package. This library implemen
 |----------|-------------|
 | [Architecture](./architecture.md) | End-to-end loading pipeline from URL → publication |
 | [Rendering](./rendering.md) | Blob URL + iframe rendering (v1) |
+| [EPUB CFI](./cfi.md) | Canonical Fragment Identifiers for positions/ranges |
 | [Future plans](../futureplans.md) | Highlighting, overlays, event pipeline (not yet implemented) |
 | [EPUB module](./epub/README.md) | All files under `src/epub/` and how they map to the spec |
 | [Reader API](./reader.md) | Public `createReader()` / `open()` surface |

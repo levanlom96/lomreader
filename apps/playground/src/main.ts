@@ -45,6 +45,16 @@ function renderShell(): void {
         <span id="reader-position" data-testid="reader-position">—</span>
         <button type="button" id="next-chapter" data-testid="reader-next">Next</button>
       </section>
+      <section class="cfi-controls" hidden data-testid="cfi-controls">
+        <label class="cfi-field">
+          EPUB CFI
+          <input id="cfi-input" type="text" placeholder="epubcfi(...)" data-testid="cfi-input" />
+        </label>
+        <button type="button" id="go-cfi" data-testid="go-cfi">Go to CFI</button>
+        <button type="button" id="copy-selection-cfi" data-testid="copy-selection-cfi">
+          Copy selection CFI
+        </button>
+      </section>
       <section
         id="reader-container"
         class="reader-container"
@@ -67,6 +77,14 @@ function renderShell(): void {
 
   document.querySelector('#spread-layout')?.addEventListener('change', () => {
     void applyLayout();
+  });
+
+  document.querySelector('#go-cfi')?.addEventListener('click', () => {
+    void goToCfi();
+  });
+
+  document.querySelector('#copy-selection-cfi')?.addEventListener('click', () => {
+    void copySelectionCfi();
   });
 }
 
@@ -116,10 +134,59 @@ async function applyLayout(): Promise<void> {
   updatePosition();
 }
 
+async function copySelectionCfi(): Promise<void> {
+  if (!readerHost) {
+    return;
+  }
+
+  try {
+    const cfi = await readerHost.getSelectionCfi();
+
+    if (!cfi) {
+      setStatus('Select text in the chapter first.');
+      return;
+    }
+
+    const input = document.querySelector('#cfi-input') as HTMLInputElement | null;
+
+    if (input) {
+      input.value = cfi;
+    }
+
+    setStatus(`Selection CFI: ${cfi}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to generate CFI';
+
+    setStatus(message, true);
+  }
+}
+
+async function goToCfi(): Promise<void> {
+  if (!readerHost) {
+    return;
+  }
+
+  const input = document.querySelector('#cfi-input') as HTMLInputElement | null;
+
+  if (!input?.value.trim()) {
+    return;
+  }
+
+  try {
+    await readerHost.goToCfi(input.value.trim());
+    setStatus(`Navigated to ${input.value.trim()}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to resolve CFI';
+
+    setStatus(message, true);
+  }
+}
+
 async function loadBook(): Promise<void> {
   const urlInput = document.querySelector('#epub-url') as HTMLInputElement | null;
   const container = document.querySelector('#reader-container') as HTMLElement | null;
   const toolbar = document.querySelector('[data-testid="reader-toolbar"]') as HTMLElement | null;
+  const cfiControls = document.querySelector('[data-testid="cfi-controls"]') as HTMLElement | null;
 
   if (!urlInput || !container) {
     return;
@@ -144,6 +211,10 @@ async function loadBook(): Promise<void> {
 
     if (toolbar) {
       toolbar.hidden = false;
+    }
+
+    if (cfiControls) {
+      cfiControls.hidden = false;
     }
 
     updatePosition();

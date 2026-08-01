@@ -23,6 +23,26 @@ export {
 
 export { CORE_MEDIA_TYPES, EPUB_CONTENT_DOCUMENT_MEDIA_TYPES } from './epub/constants';
 
+export {
+  escapeCfiValue,
+  formatCfi,
+  generateCfi,
+  normalizeCfiInput,
+  parseCfi,
+  resolveCfi,
+  unescapeCfiValue,
+} from './cfi';
+
+export type {
+  CfiPoint,
+  CfiRange,
+  CfiRedirect,
+  CfiResolvedPoint,
+  CfiResolvedRange,
+  CfiResolvedTarget,
+  ParsedCfi,
+} from './cfi';
+
 export { BlobUrlStore, guessMediaType, resolveMediaType } from './render/blob-store';
 export { prepareContentDocument } from './render/prepare-document';
 export {

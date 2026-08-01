@@ -15,7 +15,7 @@ Highlights stored **inside iframe DOM** are destroyed on page turn (new blob `sr
 ### Approach
 
 1. **AnnotationStore** (host app) — persist highlights keyed by stable **locators**:
-   - [EPUB CFI](https://idpf.org/epub/link/cfi/) (preferred)
+   - [EPUB CFI](https://idpf.org/epub/link/cfi/) (preferred) — see [docs/cfi.md](docs/cfi.md)
    - Fallback: `{ spineIndex, path, startOffset, endOffset, textQuote }`
 2. **OverlayLayer** — host-owned SVG/canvas/div **above** iframe(s), not injected into EPUB XHTML
 3. On navigation: save pending selection → load new content → **re-apply** overlays from store
