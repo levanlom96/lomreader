@@ -54,6 +54,8 @@ yarn precommit
 
 Skip temporarily if needed: `git commit --no-verify` (use sparingly).
 
+If you use nvm, put shell init code in `~/.config/husky/init.sh` — not the deprecated `~/.huskyrc`.
+
 ## Adding a feature
 
 1. Read the [EPUB 3.3 spec section](https://www.w3.org/TR/epub-33/) for your feature.
