@@ -19,11 +19,23 @@ export interface XmlDocumentLike {
 }
 
 export function parseXml(text: string): XmlDocumentLike {
-  const doc = new DOMParser().parseFromString(text, 'application/xml');
+  let doc;
+
+  try {
+    doc = new DOMParser().parseFromString(text, 'application/xml');
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'parse error';
+    throw new Error(`Invalid XML: ${message}`);
+  }
+
   const parseError = doc.getElementsByTagName('parsererror')[0];
 
   if (parseError) {
     throw new Error(`Invalid XML: ${parseError.textContent ?? 'parse error'}`);
+  }
+
+  if (!doc.documentElement) {
+    throw new Error('Invalid XML: missing document element');
   }
 
   return doc as unknown as XmlDocumentLike;

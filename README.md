@@ -57,12 +57,27 @@ yarn workspace @lomreader/epub-server start
 
 Drop `.epub` files into `apps/epub-server/public/epubs/` to serve them during development.
 
+## Documentation
+
+- [Contributing guide](CONTRIBUTING.md)
+- [lomreader package docs](packages/lomreader/docs/README.md) — architecture, EPUB module reference, spec links
+
 ## Testing
 
-- **Unit tests** — Vitest in `packages/lomreader/src/**/*.test.ts`
+See [packages/lomreader/docs/testing.md](packages/lomreader/docs/testing.md) for the full test pyramid.
+
+- **Unit tests** — Vitest in `packages/lomreader/src/**/*.test.ts` and `test/**/*.test.ts`
+- **Contract tests** — frozen `hypatia.epub` output in `packages/lomreader/test/hypatia.contract.test.ts`
 - **Integration/e2e** — Playwright in `apps/integration/e2e/` against the harness at `apps/integration/src/harness.ts`
 
 When adding a feature, add unit tests in the library and integration scenarios in the harness + e2e specs.
+
+```bash
+yarn test                    # unit + contract
+yarn workspace lomreader test:coverage
+yarn test:integration        # Playwright e2e
+yarn test:all                # everything
+```
 
 ## Project structure
 
@@ -73,6 +88,8 @@ lomreader/
 ├── package.json            # Yarn workspaces root
 ├── packages/
 │   └── lomreader/          # Vite library build + Vitest unit tests
+│       ├── docs/           # Contributor docs (EPUB 3.3 spec links)
+│       ├── test/           # Contract tests + fixtures
 │       ├── src/
 │       ├── vite.config.ts
 │       └── vitest.config.ts
