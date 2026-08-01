@@ -14,10 +14,22 @@
     "dev": "yarn dev:server & yarn dev:playground",
     "build": "yarn workspace lomreader build",
     "build:playground": "yarn workspace @lomreader/playground build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "yarn workspace lomreader test",
     "test:integration": "yarn workspace @lomreader/integration test",
     "test:all": "yarn test && yarn test:integration",
-    "typecheck": "yarn workspaces foreach -A run typecheck"
+    "typecheck": "yarn workspaces foreach -A run typecheck",
+    "precommit": "sh scripts/pre-commit.sh",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.18.0"
   },
   "engines": {
     "node": ">=18"

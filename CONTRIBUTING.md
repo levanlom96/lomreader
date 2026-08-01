@@ -26,6 +26,7 @@ Run the full check suite:
 
 ```bash
 yarn typecheck
+yarn lint
 yarn test:all
 yarn build
 ```
@@ -35,6 +36,23 @@ Optional coverage report:
 ```bash
 yarn workspace lomreader test:coverage
 ```
+
+### Pre-commit hook
+
+This repository uses [Husky](https://typicode.github.io/husky/) to run checks before every commit:
+
+1. ESLint (`yarn lint`)
+2. TypeScript (`yarn typecheck`)
+3. Unit + contract tests (`yarn test`)
+4. Integration / e2e tests (`yarn test:integration`)
+
+Hooks are installed automatically via `yarn install` (`prepare` script). Run manually with:
+
+```bash
+yarn precommit
+```
+
+Skip temporarily if needed: `git commit --no-verify` (use sparingly).
 
 ## Adding a feature
 

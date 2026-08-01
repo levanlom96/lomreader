@@ -4,19 +4,13 @@ lomreader uses a three-layer test strategy to protect backwards compatibility as
 
 ## Test pyramid
 
-```
-                    ┌─────────────────┐
-                    │  E2E (Playwright)│  apps/integration/e2e/
-                    │  Real browser    │
-                    └────────┬────────┘
-               ┌─────────────┴─────────────┐
-               │  Contract tests           │  test/hypatia.contract.test.ts
-               │  Frozen real EPUB output  │
-               └─────────────┬─────────────┘
-          ┌──────────────────┴──────────────────┐
-          │  Unit tests (Vitest)                │  src/**/*.test.ts
-          │  Modules + synthetic EPUB fixtures  │
-          └─────────────────────────────────────┘
+```mermaid
+flowchart TD
+  Unit["Unit tests (Vitest)<br/>src/**/*.test.ts<br/>Modules + synthetic EPUB fixtures"]
+  Contract["Contract tests<br/>test/hypatia.contract.test.ts<br/>Frozen hypatia.epub output"]
+  E2E["E2E (Playwright)<br/>apps/integration/e2e/<br/>Real browser + harness"]
+
+  Unit --> Contract --> E2E
 ```
 
 ## Unit tests (Vitest)
@@ -68,10 +62,12 @@ Uses the real [`hypatia.epub`](../../../apps/epub-server/public/epubs/hypatia.ep
 **Run:**
 
 ```bash
-yarn workspace @lomreader/integration test:install-browsers  # once
+yarn workspace @lomreader/integration test:install-browsers  # once — required before first run
 yarn test:integration
 yarn test:all  # unit + e2e
 ```
+
+Playwright downloads Chromium on first install (~180 MB). Integration/e2e tests and the pre-commit hook (`yarn precommit`) will fail without it.
 
 ## Adding tests for a new feature
 
@@ -80,10 +76,6 @@ yarn test:all  # unit + e2e
 3. **Harness** — add `data-testid` attributes for observable behaviour.
 4. **E2E** — add Playwright spec asserting user-visible results.
 
-## CI recommendation
+### Pre-commit hook (local)
 
-```bash
-yarn typecheck && yarn test:all && yarn build
-```
-
-All must pass before merging parser changes.
+Husky runs `yarn precommit` before each commit (lint → typecheck → unit → e2e). See [CONTRIBUTING.md](../../../CONTRIBUTING.md).

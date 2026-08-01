@@ -16,8 +16,15 @@ This repository is a Yarn workspaces monorepo written in **TypeScript**:
 ```bash
 corepack enable
 yarn install
+```
+
+**Playwright browsers (required once)** — needed for integration/e2e tests and the pre-commit hook:
+
+```bash
 yarn workspace @lomreader/integration test:install-browsers
 ```
+
+This downloads Chromium (~180 MB). Without it, `yarn test:integration` and `yarn precommit` will fail.
 
 Run the EPUB server and playground together:
 
@@ -39,10 +46,13 @@ Build, test, and typecheck:
 ```bash
 yarn build             # build lomreader → packages/lomreader/dist/
 yarn build:playground
-yarn test              # unit tests (Vitest)
-yarn test:integration  # e2e tests (Playwright)
-yarn test:all          # unit + integration
-yarn typecheck         # typecheck all workspaces
+yarn lint                # ESLint
+yarn lint:fix            # ESLint with auto-fix
+yarn test                # unit tests (Vitest)
+yarn test:integration    # e2e tests (Playwright)
+yarn test:all            # unit + integration
+yarn typecheck           # typecheck all workspaces
+yarn precommit           # full pre-commit check suite
 ```
 
 Run a command in a specific workspace:
@@ -70,13 +80,20 @@ See [packages/lomreader/docs/testing.md](packages/lomreader/docs/testing.md) for
 - **Contract tests** — frozen `hypatia.epub` output in `packages/lomreader/test/hypatia.contract.test.ts`
 - **Integration/e2e** — Playwright in `apps/integration/e2e/` against the harness at `apps/integration/src/harness.ts`
 
+Integration and e2e tests require Playwright browsers. Install them once after `yarn install`:
+
+```bash
+yarn workspace @lomreader/integration test:install-browsers
+```
+
 When adding a feature, add unit tests in the library and integration scenarios in the harness + e2e specs.
 
 ```bash
 yarn test                    # unit + contract
 yarn workspace lomreader test:coverage
-yarn test:integration        # Playwright e2e
+yarn test:integration        # Playwright e2e (requires browsers)
 yarn test:all                # everything
+yarn precommit               # lint + typecheck + unit + e2e (requires browsers)
 ```
 
 ## Project structure
