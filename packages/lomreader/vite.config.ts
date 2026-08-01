@@ -11,6 +11,9 @@ export default defineConfig({
       fileName: 'lomreader',
     },
     sourcemap: true,
+    rollupOptions: {
+      external: ['@xmldom/xmldom', 'fflate'],
+    },
   },
   plugins: [
     dts({
