@@ -1,4 +1,9 @@
-import { createReader, type Publication } from 'lomreader';
+import {
+  createReader,
+  createReaderHost,
+  type Publication,
+  type ReaderHost,
+} from 'lomreader';
 import './harness.css';
 
 const EPUB_URL = 'http://localhost:3001/epubs/hypatia.epub';
@@ -7,6 +12,7 @@ declare global {
   interface Window {
     __LOMREADER_TEST__?: {
       publication: Publication;
+      readerHost: ReaderHost;
       getChapter1Html: () => Promise<string>;
       resolveCssHref: () => string;
     };
@@ -20,6 +26,8 @@ if (!root) {
 }
 
 const app = root as HTMLElement;
+
+let readerHost: ReaderHost | undefined;
 
 function renderLoading(): void {
   app.innerHTML = `
@@ -35,6 +43,16 @@ function renderError(message: string): void {
       <p data-testid="reader-status" class="error">${message}</p>
     </main>
   `;
+}
+
+function updateReaderPosition(): void {
+  const position = document.querySelector('#reader-position');
+
+  if (!position || !readerHost) {
+    return;
+  }
+
+  position.textContent = `${readerHost.getCurrentLinearIndex() + 1} / ${readerHost.getLinearSpineCount()}`;
 }
 
 function renderPublication(summary: {
@@ -103,8 +121,22 @@ function renderPublication(summary: {
           <code data-testid="chapter-1-path">${summary.chapter1Path}</code>
         </p>
       </section>
+      <section class="reader-toolbar" data-testid="reader-toolbar">
+        <button type="button" id="prev-chapter" data-testid="reader-prev">Previous</button>
+        <span id="reader-position" data-testid="reader-position">—</span>
+        <button type="button" id="next-chapter" data-testid="reader-next">Next</button>
+      </section>
+      <section id="reader-container" class="reader-container" data-testid="reader-container"></section>
     </main>
   `;
+
+  document.querySelector('#prev-chapter')?.addEventListener('click', () => {
+    void readerHost?.prev().then(updateReaderPosition);
+  });
+
+  document.querySelector('#next-chapter')?.addEventListener('click', () => {
+    void readerHost?.next().then(updateReaderPosition);
+  });
 }
 
 async function boot(): Promise<void> {
@@ -135,8 +167,18 @@ async function boot(): Promise<void> {
       chapter1Path: chapter1?.item.path ?? '',
     });
 
+    const container = document.querySelector('#reader-container') as HTMLElement | null;
+
+    if (!container) {
+      throw new Error('Missing reader container');
+    }
+
+    readerHost = await createReaderHost(publication, { container });
+    updateReaderPosition();
+
     window.__LOMREADER_TEST__ = {
       publication,
+      readerHost,
       getChapter1Html: () => publication.getText('epub/text/chapter-1.xhtml'),
       resolveCssHref: () =>
         publication.resolveHref('../css/core.css', 'epub/text/chapter-1.xhtml'),

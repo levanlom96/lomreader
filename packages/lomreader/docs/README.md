@@ -7,6 +7,8 @@ Contributor documentation for the `lomreader` npm package. This library implemen
 | Document | Description |
 |----------|-------------|
 | [Architecture](./architecture.md) | End-to-end loading pipeline from URL → publication |
+| [Rendering](./rendering.md) | Blob URL + iframe rendering (v1) |
+| [Future plans](../futureplans.md) | Highlighting, overlays, event pipeline (not yet implemented) |
 | [EPUB module](./epub/README.md) | All files under `src/epub/` and how they map to the spec |
 | [Reader API](./reader.md) | Public `createReader()` / `open()` surface |
 | [Types](./types.md) | TypeScript models for planes and resources |
@@ -38,15 +40,12 @@ src/
 ├── index.ts           # Public exports
 ├── reader.ts          # LomReader class
 ├── types.ts           # Shared TypeScript interfaces
+├── render/            # Browser rendering (see rendering.md)
+│   ├── blob-store.ts
+│   ├── prepare-document.ts
+│   ├── content-frame.ts
+│   └── reader-host.ts
 └── epub/              # EPUB 3.3 parsing (see epub/README.md)
-    ├── archive.ts
-    ├── constants.ts
-    ├── content-discovery.ts
-    ├── parse-container.ts
-    ├── parse-package.ts
-    ├── paths.ts
-    ├── planes.ts
-    └── xml.ts
 ```
 
 ## Contributing

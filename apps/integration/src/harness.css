@@ -49,7 +49,26 @@ header h1 {
   color: #b00020;
 }
 
-code {
-  font-family: ui-monospace, monospace;
-  font-size: 0.9em;
+.reader-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.reader-container {
+  position: relative;
+  margin-top: 1rem;
+  min-height: 24rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.reader-container iframe {
+  display: block;
+  width: 100%;
+  min-height: 24rem;
+  border: 0;
 }

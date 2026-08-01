@@ -2713,6 +2713,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"happy-dom@npm:^16.0.0":
+  version: 16.8.1
+  resolution: "happy-dom@npm:16.8.1"
+  dependencies:
+    webidl-conversions: "npm:^7.0.0"
+    whatwg-mimetype: "npm:^3.0.0"
+  checksum: 10c0/3e6e4ce3bf67871304fadc7a0e661397b3d6c12de149cafce5a9062b47038a4c12f5f29c2fc9a070be3e56f2b5a1625cc79570e1fd1a30ffea9aa107f844d57b
+  languageName: node
+  linkType: hard
+
 "has-flag@npm:^4.0.0":
   version: 4.0.0
   resolution: "has-flag@npm:4.0.0"
@@ -3079,6 +3089,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:^3.0.0"
     "@xmldom/xmldom": "npm:^0.9.8"
     fflate: "npm:^0.8.2"
+    happy-dom: "npm:^16.0.0"
     typescript: "npm:^5.7.0"
     vite: "npm:^6.0.0"
     vite-plugin-dts: "npm:^4.5.0"
@@ -4435,6 +4446,20 @@ __metadata:
   version: 3.1.0
   resolution: "vscode-uri@npm:3.1.0"
   checksum: 10c0/5f6c9c10fd9b1664d71fab4e9fbbae6be93c7f75bb3a1d9d74399a88ab8649e99691223fd7cef4644376cac6e94fa2c086d802521b9a8e31c5af3e60f0f35624
+  languageName: node
+  linkType: hard
+
+"webidl-conversions@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "webidl-conversions@npm:7.0.0"
+  checksum: 10c0/228d8cb6d270c23b0720cb2d95c579202db3aaf8f633b4e9dd94ec2000a04e7e6e43b76a94509cdb30479bd00ae253ab2371a2da9f81446cc313f89a4213a2c4
+  languageName: node
+  linkType: hard
+
+"whatwg-mimetype@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "whatwg-mimetype@npm:3.0.0"
+  checksum: 10c0/323895a1cda29a5fb0b9ca82831d2c316309fede0365047c4c323073e3239067a304a09a1f4b123b9532641ab604203f33a1403b5ca6a62ef405bcd7a204080f
   languageName: node
   linkType: hard
 

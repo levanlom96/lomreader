@@ -4,6 +4,7 @@ import { findPackageDocumentPath } from './epub/parse-container';
 import { parsePackageDocument } from './epub/parse-package';
 import { buildContentPlane } from './epub/planes';
 import { normalizeContainerPath, resolveRelativePath } from './epub/paths';
+import { BlobUrlStore } from './render/blob-store';
 
 const VERSION = '0.0.1' as const;
 
@@ -39,12 +40,25 @@ export class LomReader {
     const packageDocument = parsePackageDocument(archive, packagePath);
     const content = buildContentPlane(archive, packageDocument);
 
+    const getBytes = async (path: string) => {
+      const bytes = readArchiveBytes(archive, path);
+
+      if (!bytes) {
+        throw new Error(`Resource not found: ${path}`);
+      }
+
+      return bytes;
+    };
+
+    const blobStore = new BlobUrlStore(getBytes, packageDocument.manifest);
+
     return {
       url,
       packageDocument,
       manifest: packageDocument.manifest,
       spine: packageDocument.spine,
       content,
+      blobStore,
       resolveHref: (href: string, relativeTo: string) =>
         normalizeContainerPath(resolveRelativePath(relativeTo, href)),
       getText: async (path: string) => {
@@ -56,15 +70,9 @@ export class LomReader {
 
         return text;
       },
-      getBytes: async (path: string) => {
-        const bytes = readArchiveBytes(archive, path);
-
-        if (!bytes) {
-          throw new Error(`Resource not found: ${path}`);
-        }
-
-        return bytes;
-      },
+      getBytes,
+      getBlobUrl: (path: string) => blobStore.getBlobUrl(path),
+      revokeBlobUrls: () => blobStore.revokeAll(),
     };
   }
 }

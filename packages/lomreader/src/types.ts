@@ -1,3 +1,5 @@
+import type { BlobUrlStore } from './render/blob-store';
+
 export interface ManifestItem {
   id: string;
   href: string;
@@ -67,8 +69,11 @@ export interface Publication {
   manifest: ManifestPlane;
   spine: SpinePlane;
   content: ContentPlane;
+  blobStore: BlobUrlStore;
   getText(path: string): Promise<string>;
   getBytes(path: string): Promise<Uint8Array>;
+  getBlobUrl(path: string): Promise<string>;
+  revokeBlobUrls(): void;
   resolveHref(href: string, relativeTo: string): string;
 }
 

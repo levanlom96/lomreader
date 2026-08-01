@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { loadHypatiaEpub, parseEpubBytes } from './helpers';
+import { prepareContentDocument } from '../src/render/prepare-document';
+import { loadHypatiaEpub, openEpubFromBytes, parseEpubBytes } from './helpers';
 
 /**
  * Frozen contract for hypatia.epub — update only when parser changes are intentional.
@@ -99,5 +100,31 @@ describe('hypatia.epub contract', () => {
         ),
       ),
     ).toBe(true);
+  });
+
+  it('prepares the first linear XHTML chapter for rendering', async () => {
+    const bytes = await loadHypatiaEpub();
+    const { packageDocument } = await parseEpubBytes(bytes);
+    const publication = await openEpubFromBytes(bytes);
+    const firstLinear = packageDocument.spine.itemrefs.find(
+      (itemref) =>
+        itemref.linear && itemref.item.mediaType === 'application/xhtml+xml',
+    );
+
+    expect(firstLinear).toBeDefined();
+
+    const url = await prepareContentDocument(
+      publication.blobStore,
+      publication.manifest,
+      firstLinear!.item.path,
+      (path) => publication.getText(path),
+    );
+
+    expect(url.startsWith('blob:')).toBe(true);
+
+    const html = await (await fetch(url)).text();
+
+    expect(html.toLowerCase()).toContain('<html');
+    expect(html).toMatch(/blob:/);
   });
 });

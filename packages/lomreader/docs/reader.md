@@ -20,6 +20,20 @@ console.log(publication.content.resources.length);
 const html = await publication.getText('epub/text/chapter-1.xhtml');
 ```
 
+## Rendering
+
+```ts
+import { createReader, createReaderHost } from 'lomreader';
+
+const publication = await createReader().open(url);
+const host = await createReaderHost(publication, { container: document.getElementById('reader')! });
+
+await host.next();
+host.destroy();
+```
+
+See [rendering.md](./rendering.md).
+
 ## `createReader(options?)`
 
 | Option | Type | Default | Description |

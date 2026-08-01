@@ -2,7 +2,15 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const packageRoot = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+function resolvePackageRoot(): string {
+  try {
+    return path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+  } catch {
+    return process.cwd();
+  }
+}
+
+const packageRoot = resolvePackageRoot();
 
 export const HYPATIA_EPUB_PATH = path.resolve(
   packageRoot,
