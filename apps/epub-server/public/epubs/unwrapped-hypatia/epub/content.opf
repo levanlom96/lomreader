@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" dir="ltr" prefix="se: https://standardebooks.org/vocab/1.0 rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#" unique-identifier="uid" version="3.0" xml:lang="en-US">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<meta property="schema:version">63de302dbbda1fe765c3680adc9792173478bd4b-4.0.0-epub</meta>
+		<dc:identifier id="uid">https://standardebooks.org/ebooks/charles-kingsley/hypatia</dc:identifier>
+		<dc:date>2026-07-31T16:45:36Z</dc:date>
+		<meta property="dcterms:modified">2026-07-31T16:56:49Z</meta>
+		<dc:rights>The source text and artwork in this ebook are believed to be in the United States public domain; that is, they are believed to be free of copyright restrictions in the United States. They may still be copyrighted in other countries, so users located outside of the United States must check their local laws before using this ebook. The creators of, and contributors to, this ebook dedicate their contributions to the worldwide public domain via the terms in the [CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/).</dc:rights>
+		<meta property="rdf:type">http://schema.org/Book</meta>
+		<dc:publisher id="publisher">Standard Ebooks</dc:publisher>
+		<meta property="file-as" refines="#publisher">Standard Ebooks</meta>
+		<link href="https://standardebooks.org/" refines="#publisher" rel="schema:url"/>
+		<meta property="role" refines="#publisher" scheme="marc:relators">bkd</meta>
+		<meta property="role" refines="#publisher" scheme="marc:relators">mdc</meta>
+		<meta property="role" refines="#publisher" scheme="marc:relators">pbl</meta>
+		<dc:contributor id="type-designer">The League of Moveable Type</dc:contributor>
+		<meta property="file-as" refines="#type-designer">League of Moveable Type, The</meta>
+		<link href="https://www.theleagueofmoveabletype.com/" refines="#type-designer" rel="schema:url"/>
+		<meta property="role" refines="#type-designer" scheme="marc:relators">tyd</meta>
+		<meta id="conformance-statement" property="dcterms:conformsTo">EPUB Accessibility 1.1 - WCAG 2.2 Level AA</meta>
+		<meta property="a11y:certifiedBy" refines="#conformance-statement">Standard Ebooks</meta>
+		<meta property="schema:accessMode">textual</meta>
+		<meta property="schema:accessModeSufficient">textual</meta>
+		<meta property="schema:accessibilityFeature">alternativeText</meta>
+		<meta property="schema:accessibilityFeature">displayTransformability</meta>
+		<meta property="schema:accessibilityFeature">readingOrder</meta>
+		<meta property="schema:accessibilityFeature">structuralNavigation</meta>
+		<meta property="schema:accessibilityFeature">tableOfContents</meta>
+		<meta property="schema:accessibilityFeature">unlocked</meta>
+		<meta property="schema:accessibilityHazard">none</meta>
+		<meta property="schema:accessibilitySummary">This publication conforms to WCAG 2.2 Level AA.</meta>
+		<dc:title id="title">Hypatia</dc:title>
+		<meta property="file-as" refines="#title">Hypatia</meta>
+		<meta property="title-type" refines="#title">main</meta>
+		<dc:title id="subtitle">Or, New Foes with an Old Face</dc:title>
+		<meta property="file-as" refines="#subtitle">Or, New Foes with an Old Face</meta>
+		<meta property="title-type" refines="#subtitle">subtitle</meta>
+		<dc:title id="fulltitle">Hypatia, or, New Foes with an Old Face</dc:title>
+		<meta property="file-as" refines="#fulltitle">Hypatia</meta>
+		<meta property="title-type" refines="#fulltitle">expanded</meta>
+		<dc:subject id="subject-1">Historical fiction</dc:subject>
+		<meta property="authority" refines="#subject-1">LCSH</meta>
+		<meta property="term" refines="#subject-1">sh85061165</meta>
+		<dc:subject id="subject-2">Biographical fiction</dc:subject>
+		<meta property="authority" refines="#subject-2">LCSH</meta>
+		<meta property="term" refines="#subject-2">sh85014149</meta>
+		<dc:subject id="subject-3">Egypt -- History -- 30 B.C.-640 A.D. -- Fiction</dc:subject>
+		<meta property="authority" refines="#subject-3">LCSH</meta>
+		<meta property="term" refines="#subject-3">Unknown</meta>
+		<dc:subject id="subject-4">Alexandria (Egypt) -- Fiction</dc:subject>
+		<meta property="authority" refines="#subject-4">LCSH</meta>
+		<meta property="term" refines="#subject-4">sh2007101265</meta>
+		<dc:subject id="subject-5">Hypatia, -415 -- Fiction</dc:subject>
+		<meta property="authority" refines="#subject-5">LCSH</meta>
+		<meta property="term" refines="#subject-5">Unknown</meta>
+		<dc:subject id="subject-6">Women philosophers -- Fiction</dc:subject>
+		<meta property="authority" refines="#subject-6">LCSH</meta>
+		<meta property="term" refines="#subject-6">sh2010119148</meta>
+		<meta property="schema:genre">Fiction</meta>
+		<dc:description id="description">A naive young monk in Roman Alexandria tries to convert a famous pagan woman philosopher to Christianity.</dc:description>
+		<meta id="long-description" property="se:long-description" refines="#description">
+			&lt;p&gt;Philammon is a young monk living in an isolated Egyptian monastery circa 400 AD. He feels a longing to see the world, so he embarks on a trip to Alexandria, a city teeming with culture and learning. On his way he meets Pelagia, a beautiful courtesan traveling up the Nile with a band of Goths in search of Asgard.&lt;/p&gt;
+			&lt;p&gt;On reaching the legendary city, Philammon quickly finds himself embroiled in the feud between Orestes, the city’s prefect, and Cyril, the city’s Catholic archbishop. As he tries to navigate these troubled political waters, he hears of Hypatia, a woman philosopher and one of the last prominent champions of the Greek gods. Hypnotized by her knowledge and beauty, he undertakes to convert her to Christianity—but as his naivete keeps preventing him from reaching the brilliant philosopher, it becomes apparent that she’s being used as a pawn in Orestes’ and Cyril’s dangerous games. Meanwhile, Pelagia and her violent Goth friends complicate matters significantly.&lt;/p&gt;
+			&lt;p&gt;&lt;i&gt;Hypatia&lt;/i&gt; is historical fiction based on real events and people. &lt;a href="https://standardebooks.org/ebooks/charles-kingsley"&gt;Kingsley&lt;/a&gt; wrote it mainly as a Christian apologia, asserting the moral superiority of Christianity over not just pagan religions, but Judaism, Catholicism, and Neoplatonism as well; but despite this, the novel spares few from scrutiny, with almost everyone engaging in their fair share of scheming and violence.&lt;/p&gt;
+			&lt;p&gt;Hypatia herself, historically a prominent philosopher, mathematician, and astronomer, is protrayed as a strong, noble, and pure thinker. Kingsley’s characterization popularized her as the last of the great pagans, and made her an icon for women’s rights and feminism.&lt;/p&gt;
+			&lt;p&gt;The novel is said to have been Queen Victoria’s favorite of Kingsley’s, and it inspired at least three contemporary paintings, one of which sparked an intense debate on nudity in art.&lt;/p&gt;
+		</meta>
+		<dc:language>en-GB</dc:language>
+		<dc:source>https://www.gutenberg.org/ebooks/6308</dc:source>
+		<dc:source>https://www.google.com/books/edition/Hypatia_v_I_and_II/VfAD1t3bmUwC</dc:source>
+		<meta property="schema:wordCount">167750</meta>
+		<meta property="schema:educationalLevel">69.82</meta>
+		<link href="https://en.wikipedia.org/wiki/Hypatia_(novel)" rel="schema:sameAs"/>
+		<meta id="vcs-repository" property="schema:workExample">schema:workExample</meta>
+		<meta property="rdf:type" refines="#vcs-repository">http://schema.org/SoftwareSourceCode</meta>
+		<link href="https://github.com/standardebooks/charles-kingsley_hypatia" refines="#vcs-repository" rel="schema:codeRepository"/>
+		<dc:creator id="author">Charles Kingsley</dc:creator>
+		<meta property="file-as" refines="#author">Kingsley, Charles</meta>
+		<link href="https://en.wikipedia.org/wiki/Charles_Kingsley" refines="#author" rel="schema:sameAs"/>
+		<link href="https://id.loc.gov/authorities/names/n79062749.html" refines="#author" rel="schema:sameAs"/>
+		<meta property="role" refines="#author" scheme="marc:relators">ann</meta>
+		<meta property="role" refines="#author" scheme="marc:relators">aut</meta>
+		<meta property="role" refines="#author" scheme="marc:relators">dto</meta>
+		<meta property="role" refines="#author" scheme="marc:relators">wpr</meta>
+		<dc:contributor id="artist">Julius Kronberg</dc:contributor>
+		<meta property="file-as" refines="#artist">Kronberg, Julius</meta>
+		<link href="https://en.wikipedia.org/wiki/Julius_Kronberg" refines="#artist" rel="schema:sameAs"/>
+		<link href="https://id.loc.gov/authorities/names/n2017003137.html" refines="#artist" rel="schema:sameAs"/>
+		<meta property="role" refines="#artist" scheme="marc:relators">art</meta>
+		<dc:contributor id="transcriber-1">P. J. Riddick</dc:contributor>
+		<meta property="file-as" refines="#transcriber-1">Riddick, P. J.</meta>
+		<meta property="role" refines="#transcriber-1" scheme="marc:relators">trc</meta>
+		<dc:contributor id="transcriber-2">David Widger</dc:contributor>
+		<meta property="file-as" refines="#transcriber-2">Widger, David</meta>
+		<link href="https://id.loc.gov/authorities/names/no2011017869.html" refines="#transcriber-2" rel="schema:sameAs"/>
+		<meta property="role" refines="#transcriber-2" scheme="marc:relators">trc</meta>
+		<dc:contributor id="producer-1">Alex Cabal</dc:contributor>
+		<meta property="file-as" refines="#producer-1">Cabal, Alex</meta>
+		<link href="https://alexcabal.com/" refines="#producer-1" rel="schema:url"/>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">bkp</meta>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">blw</meta>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">cov</meta>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">mrk</meta>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">pfr</meta>
+		<meta property="role" refines="#producer-1" scheme="marc:relators">tyg</meta>
+	</metadata>
+	<manifest>
+		<item href="css/core.css" id="core.css" media-type="text/css"/>
+		<item href="css/local.css" id="local.css" media-type="text/css"/>
+		<item href="css/se.css" id="se.css" media-type="text/css"/>
+		<item href="images/cover.svg" id="cover.svg" media-type="image/svg+xml" properties="cover-image"/>
+		<item href="images/logo.svg" id="logo.svg" media-type="image/svg+xml"/>
+		<item href="images/titlepage.svg" id="titlepage.svg" media-type="image/svg+xml"/>
+		<item href="text/chapter-1.xhtml" id="chapter-1.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-2.xhtml" id="chapter-2.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-3.xhtml" id="chapter-3.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-4.xhtml" id="chapter-4.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-5.xhtml" id="chapter-5.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-6.xhtml" id="chapter-6.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-7.xhtml" id="chapter-7.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-8.xhtml" id="chapter-8.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-9.xhtml" id="chapter-9.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-10.xhtml" id="chapter-10.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-11.xhtml" id="chapter-11.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-12.xhtml" id="chapter-12.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-13.xhtml" id="chapter-13.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-14.xhtml" id="chapter-14.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-15.xhtml" id="chapter-15.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-16.xhtml" id="chapter-16.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-17.xhtml" id="chapter-17.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-18.xhtml" id="chapter-18.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-19.xhtml" id="chapter-19.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-20.xhtml" id="chapter-20.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-21.xhtml" id="chapter-21.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-22.xhtml" id="chapter-22.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-23.xhtml" id="chapter-23.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-24.xhtml" id="chapter-24.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-25.xhtml" id="chapter-25.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-26.xhtml" id="chapter-26.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-27.xhtml" id="chapter-27.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-28.xhtml" id="chapter-28.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-29.xhtml" id="chapter-29.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/chapter-30.xhtml" id="chapter-30.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/colophon.xhtml" id="colophon.xhtml" media-type="application/xhtml+xml" properties="svg"/>
+		<item href="text/dedication.xhtml" id="dedication.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/endnotes.xhtml" id="endnotes.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/halftitlepage.xhtml" id="halftitlepage.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/imprint.xhtml" id="imprint.xhtml" media-type="application/xhtml+xml" properties="svg"/>
+		<item href="text/preface.xhtml" id="preface.xhtml" media-type="application/xhtml+xml"/>
+		<item href="text/titlepage.xhtml" id="titlepage.xhtml" media-type="application/xhtml+xml" properties="svg"/>
+		<item href="text/uncopyright.xhtml" id="uncopyright.xhtml" media-type="application/xhtml+xml"/>
+		<item href="toc.xhtml" id="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+	</manifest>
+	<spine>
+		<itemref idref="titlepage.xhtml"/>
+		<itemref idref="imprint.xhtml"/>
+		<itemref idref="dedication.xhtml"/>
+		<itemref idref="preface.xhtml"/>
+		<itemref idref="halftitlepage.xhtml"/>
+		<itemref idref="chapter-1.xhtml"/>
+		<itemref idref="chapter-2.xhtml"/>
+		<itemref idref="chapter-3.xhtml"/>
+		<itemref idref="chapter-4.xhtml"/>
+		<itemref idref="chapter-5.xhtml"/>
+		<itemref idref="chapter-6.xhtml"/>
+		<itemref idref="chapter-7.xhtml"/>
+		<itemref idref="chapter-8.xhtml"/>
+		<itemref idref="chapter-9.xhtml"/>
+		<itemref idref="chapter-10.xhtml"/>
+		<itemref idref="chapter-11.xhtml"/>
+		<itemref idref="chapter-12.xhtml"/>
+		<itemref idref="chapter-13.xhtml"/>
+		<itemref idref="chapter-14.xhtml"/>
+		<itemref idref="chapter-15.xhtml"/>
+		<itemref idref="chapter-16.xhtml"/>
+		<itemref idref="chapter-17.xhtml"/>
+		<itemref idref="chapter-18.xhtml"/>
+		<itemref idref="chapter-19.xhtml"/>
+		<itemref idref="chapter-20.xhtml"/>
+		<itemref idref="chapter-21.xhtml"/>
+		<itemref idref="chapter-22.xhtml"/>
+		<itemref idref="chapter-23.xhtml"/>
+		<itemref idref="chapter-24.xhtml"/>
+		<itemref idref="chapter-25.xhtml"/>
+		<itemref idref="chapter-26.xhtml"/>
+		<itemref idref="chapter-27.xhtml"/>
+		<itemref idref="chapter-28.xhtml"/>
+		<itemref idref="chapter-29.xhtml"/>
+		<itemref idref="chapter-30.xhtml"/>
+		<itemref idref="endnotes.xhtml"/>
+		<itemref idref="colophon.xhtml"/>
+		<itemref idref="uncopyright.xhtml"/>
+	</spine>
+</package>
