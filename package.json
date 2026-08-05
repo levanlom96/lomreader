@@ -19,7 +19,7 @@
     "test": "yarn workspace lomreader test",
     "test:integration": "yarn workspace @lomreader/integration test",
     "test:all": "yarn test && yarn test:integration",
-    "typecheck": "yarn workspaces foreach -A run typecheck",
+    "typecheck": "yarn workspace lomreader build && yarn workspaces foreach -A run typecheck",
     "precommit": "sh scripts/pre-commit.sh",
     "prepare": "husky"
   },

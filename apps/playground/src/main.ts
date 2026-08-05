@@ -13,6 +13,7 @@ if (!root) {
 const app = root as HTMLElement;
 
 let readerHost: ReaderHost | undefined;
+let activePaginationEnabled = false;
 
 function renderShell(): void {
   app.innerHTML = `
@@ -168,7 +169,7 @@ function updatePosition(): void {
     return;
   }
 
-  if (readerHost.isPaginationEnabled()) {
+  if (activePaginationEnabled) {
     const total = readerHost.getTotalPages();
     const current = readerHost.getCurrentPageIndex() + 1;
     const layout = readerHost.getLayout();
@@ -195,14 +196,14 @@ async function applyLayout(): Promise<void> {
     return;
   }
 
-  if (readerHost.isPaginationEnabled()) {
+  if (activePaginationEnabled) {
     setStatus('Re-measuring pages for new layout…');
   }
 
   await readerHost.setLayout(getSelectedLayout());
   updatePosition();
 
-  if (readerHost.isPaginationEnabled()) {
+  if (activePaginationEnabled) {
     setStatus(`Layout updated — ${readerHost.getTotalPages()} pages.`);
     return;
   }
@@ -265,6 +266,7 @@ async function loadBook(): Promise<void> {
   const toolbar = document.querySelector('[data-testid="reader-toolbar"]') as HTMLElement | null;
   const cfiControls = document.querySelector('[data-testid="cfi-controls"]') as HTMLElement | null;
   const paginationEnabled = isPaginationSelected();
+  activePaginationEnabled = paginationEnabled;
 
   if (!urlInput || !container) {
     return;
