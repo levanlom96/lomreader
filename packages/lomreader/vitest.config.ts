@@ -14,7 +14,10 @@ export default defineConfig({
           name: 'node',
           environment: 'node',
           include: ['src/**/*.test.ts', 'test/**/*.test.ts'],
-          exclude: ['src/render/reader-host.test.ts'],
+          exclude: [
+            'src/render/reader-host.test.ts',
+            'src/render/pagination/**/*.test.ts',
+          ],
         },
       },
       {
@@ -22,7 +25,10 @@ export default defineConfig({
         test: {
           name: 'happy-dom',
           environment: 'happy-dom',
-          include: ['src/render/reader-host.test.ts'],
+          include: [
+            'src/render/reader-host.test.ts',
+            'src/render/pagination/**/*.test.ts',
+          ],
         },
       },
     ],

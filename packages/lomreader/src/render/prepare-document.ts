@@ -128,7 +128,7 @@ function replaceAttributeReference(
   return html.replace(pattern, `$1${newHref}$2`);
 }
 
-export async function prepareContentDocument(
+export async function rewriteContentDocumentHtml(
   store: BlobUrlStore,
   manifest: ManifestPlane,
   documentPath: string,
@@ -158,6 +158,17 @@ export async function prepareContentDocument(
 
     html = replaceAttributeReference(html, 'a', 'href', href, blobUrl);
   }
+
+  return html;
+}
+
+export async function prepareContentDocument(
+  store: BlobUrlStore,
+  manifest: ManifestPlane,
+  documentPath: string,
+  getText: (path: string) => Promise<string>,
+): Promise<string> {
+  const html = await rewriteContentDocumentHtml(store, manifest, documentPath, getText);
 
   return store.registerBlob(
     `${documentPath}#prepared`,

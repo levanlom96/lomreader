@@ -44,7 +44,7 @@ export type {
 } from './cfi';
 
 export { BlobUrlStore, guessMediaType, resolveMediaType } from './render/blob-store';
-export { prepareContentDocument } from './render/prepare-document';
+export { prepareContentDocument, rewriteContentDocumentHtml } from './render/prepare-document';
 export {
   ContentFrame,
   findInitialSpineIndex,
@@ -62,13 +62,39 @@ export {
   createReaderHost,
   getSpineItemRef,
 } from './render/reader-host';
+export {
+  BookPageIndex,
+  getPageSpreadStep,
+  getPublicationBookKey,
+  getSpreadStartPageIndex,
+} from './render/pagination/book-page-index';
+export {
+  createLocalStoragePageMapCache,
+  createMemoryPageMapCache,
+  buildPageMapCacheKey,
+  type PageMapCacheStore,
+} from './render/pagination/page-cache';
+export {
+  DEFAULT_PAGE_PADDING,
+  derivePageViewport,
+  viewportCacheKey,
+} from './render/pagination/page-shell';
 
 export type {
   BeforeNavigateHook,
   ChapterChangeDetail,
   NavigateContext,
+  PageViewport,
+  PaginateProgressDetail,
+  PaginateReadyDetail,
   ReaderHostEventMap,
   ReaderHostOptions,
   SpreadChangeDetail,
   SpreadLayout,
 } from './render/types';
+export type {
+  BookPageMap,
+  CachedBookPageMap,
+  PageRange,
+  VirtualPage,
+} from './render/pagination/types';

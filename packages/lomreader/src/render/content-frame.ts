@@ -23,6 +23,11 @@ export class ContentFrame {
     this.element.src = blobUrl;
   }
 
+  loadDocumentHtml(html: string): void {
+    this.element.removeAttribute('src');
+    this.element.srcdoc = html;
+  }
+
   destroy(): void {
     this.element.remove();
   }

@@ -117,6 +117,40 @@ export class ContentSpread {
     await Promise.all(loads);
   }
 
+  loadPageSpread(leftHtml: string | undefined, rightHtml: string | undefined): void {
+    if (this.layout === '1-up') {
+      if (!leftHtml) {
+        throw new Error('Missing page content for 1-up spread');
+      }
+
+      this.leftFrame.loadDocumentHtml(leftHtml);
+      this.leftFrame.element.hidden = false;
+      this.rightFrame.element.hidden = true;
+      this.rightFrame.element.removeAttribute('src');
+      this.rightFrame.element.removeAttribute('srcdoc');
+
+      return;
+    }
+
+    if (leftHtml) {
+      this.leftFrame.element.hidden = false;
+      this.leftFrame.loadDocumentHtml(leftHtml);
+    } else {
+      this.leftFrame.element.hidden = true;
+      this.leftFrame.element.removeAttribute('src');
+      this.leftFrame.element.removeAttribute('srcdoc');
+    }
+
+    if (rightHtml) {
+      this.rightFrame.element.hidden = false;
+      this.rightFrame.loadDocumentHtml(rightHtml);
+    } else {
+      this.rightFrame.element.hidden = true;
+      this.rightFrame.element.removeAttribute('src');
+      this.rightFrame.element.removeAttribute('srcdoc');
+    }
+  }
+
   destroy(): void {
     this.leftFrame.destroy();
     this.rightFrame.destroy();

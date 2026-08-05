@@ -1,7 +1,8 @@
-import { createReader, createReaderHost, type ReaderHost, type SpreadLayout } from 'lomreader';
+import { createReader, createReaderHost, createLocalStoragePageMapCache, type ReaderHost, type SpreadLayout } from 'lomreader';
 import './style.css';
 
 const DEFAULT_EPUB_URL = 'http://localhost:3001/epubs/hypatia.epub';
+const DEFAULT_BOOK_VERSION = '1';
 
 const root = document.querySelector('#app');
 
@@ -18,7 +19,7 @@ function renderShell(): void {
     <main class="playground">
       <header>
         <h1>Lomreader Playground</h1>
-        <p>Load an EPUB and read it with blob-backed iframe rendering.</p>
+        <p>Load an EPUB and read it with paginated iframe rendering.</p>
       </header>
       <section class="controls">
         <label class="url-field">
@@ -28,6 +29,16 @@ function renderShell(): void {
             type="url"
             value="${DEFAULT_EPUB_URL}"
             data-testid="epub-url-input"
+          />
+        </label>
+        <label class="version-field">
+          Book version
+          <input
+            id="book-version"
+            type="text"
+            value="${DEFAULT_BOOK_VERSION}"
+            placeholder="Bump to invalidate page cache"
+            data-testid="book-version-input"
           />
         </label>
         <label class="layout-field">
@@ -105,6 +116,12 @@ function getSelectedLayout(): SpreadLayout {
   return select?.value === '2-up' ? '2-up' : '1-up';
 }
 
+function getBookVersion(): string {
+  const input = document.querySelector('#book-version') as HTMLInputElement | null;
+
+  return input?.value.trim() || DEFAULT_BOOK_VERSION;
+}
+
 function updatePosition(): void {
   if (!readerHost) {
     return;
@@ -116,13 +133,14 @@ function updatePosition(): void {
     return;
   }
 
-  const total = readerHost.getLinearSpineCount();
-  const left = readerHost.getCurrentLinearIndex() + 1;
-  const visibleCount = readerHost.getVisibleSpineIndices().length;
-  const right = visibleCount > 1 ? left + 1 : undefined;
+  const total = readerHost.getTotalPages();
+  const current = readerHost.getCurrentPageIndex() + 1;
+  const layout = readerHost.getLayout();
+  const right =
+    layout === '2-up' && current + 1 <= total ? current + 1 : undefined;
 
   position.textContent =
-    right !== undefined ? `${left}–${right} / ${total}` : `${left} / ${total}`;
+    right !== undefined ? `${current}–${right} / ${total}` : `${current} / ${total}`;
 }
 
 async function applyLayout(): Promise<void> {
@@ -130,8 +148,10 @@ async function applyLayout(): Promise<void> {
     return;
   }
 
+  setStatus('Re-measuring pages for new layout…');
   await readerHost.setLayout(getSelectedLayout());
   updatePosition();
+  setStatus(`Layout updated — ${readerHost.getTotalPages()} pages.`);
 }
 
 async function copySelectionCfi(): Promise<void> {
@@ -174,6 +194,7 @@ async function goToCfi(): Promise<void> {
 
   try {
     await readerHost.goToCfi(input.value.trim());
+    updatePosition();
     setStatus(`Navigated to ${input.value.trim()}`);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to resolve CFI';
@@ -201,9 +222,31 @@ async function loadBook(): Promise<void> {
   try {
     const reader = createReader();
     const publication = await reader.open(urlInput.value.trim());
+    const bookVersion = getBookVersion();
+
+    setStatus('Measuring pages…');
+
     readerHost = await createReaderHost(publication, {
       container,
       layout: getSelectedLayout(),
+      bookVersion,
+      pageMapCache: createLocalStoragePageMapCache(),
+      onPaginateProgress: (detail) => {
+        if (detail.fromCache) {
+          setStatus('Loaded page map from cache…');
+          return;
+        }
+
+        setStatus(
+          `Measuring ${detail.measuredChapters}/${detail.totalChapters} chapters…`,
+        );
+      },
+      onPaginateReady: (detail) => {
+        const source = detail.fromCache ? 'cache' : 'layout';
+        setStatus(
+          `Ready — ${detail.totalPages} pages (from ${source}). Version: ${bookVersion}.`,
+        );
+      },
     });
 
     readerHost.on('chapterchange', () => updatePosition());
@@ -218,7 +261,6 @@ async function loadBook(): Promise<void> {
     }
 
     updatePosition();
-    setStatus(`Loaded ${publication.spine.itemrefs.length} spine items.`);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to load EPUB';
 
