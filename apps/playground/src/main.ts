@@ -19,7 +19,7 @@ function renderShell(): void {
     <main class="playground">
       <header>
         <h1>Lomreader Playground</h1>
-        <p>Load an EPUB and read it with paginated iframe rendering.</p>
+        <p>Load an EPUB and read it with blob-backed iframe rendering.</p>
       </header>
       <section class="controls">
         <label class="url-field">
@@ -31,7 +31,16 @@ function renderShell(): void {
             data-testid="epub-url-input"
           />
         </label>
-        <label class="version-field">
+        <label class="checkbox-field">
+          <input
+            id="enable-pagination"
+            type="checkbox"
+            checked
+            data-testid="enable-pagination"
+          />
+          Virtual pagination (measure pages on load)
+        </label>
+        <label class="version-field" data-testid="book-version-field">
           Book version
           <input
             id="book-version"
@@ -90,6 +99,10 @@ function renderShell(): void {
     void applyLayout();
   });
 
+  document.querySelector('#enable-pagination')?.addEventListener('change', () => {
+    syncPaginationControls();
+  });
+
   document.querySelector('#go-cfi')?.addEventListener('click', () => {
     void goToCfi();
   });
@@ -97,6 +110,8 @@ function renderShell(): void {
   document.querySelector('#copy-selection-cfi')?.addEventListener('click', () => {
     void copySelectionCfi();
   });
+
+  syncPaginationControls();
 }
 
 function setStatus(message: string, isError = false): void {
@@ -116,6 +131,26 @@ function getSelectedLayout(): SpreadLayout {
   return select?.value === '2-up' ? '2-up' : '1-up';
 }
 
+function isPaginationSelected(): boolean {
+  const checkbox = document.querySelector('#enable-pagination') as HTMLInputElement | null;
+
+  return checkbox?.checked ?? false;
+}
+
+function syncPaginationControls(): void {
+  const enabled = isPaginationSelected();
+  const versionField = document.querySelector('[data-testid="book-version-field"]') as HTMLElement | null;
+  const versionInput = document.querySelector('#book-version') as HTMLInputElement | null;
+
+  if (versionField) {
+    versionField.hidden = !enabled;
+  }
+
+  if (versionInput) {
+    versionInput.disabled = !enabled;
+  }
+}
+
 function getBookVersion(): string {
   const input = document.querySelector('#book-version') as HTMLInputElement | null;
 
@@ -133,14 +168,26 @@ function updatePosition(): void {
     return;
   }
 
-  const total = readerHost.getTotalPages();
-  const current = readerHost.getCurrentPageIndex() + 1;
-  const layout = readerHost.getLayout();
-  const right =
-    layout === '2-up' && current + 1 <= total ? current + 1 : undefined;
+  if (readerHost.isPaginationEnabled()) {
+    const total = readerHost.getTotalPages();
+    const current = readerHost.getCurrentPageIndex() + 1;
+    const layout = readerHost.getLayout();
+    const right =
+      layout === '2-up' && current + 1 <= total ? current + 1 : undefined;
+
+    position.textContent =
+      right !== undefined ? `${current}–${right} / ${total}` : `${current} / ${total}`;
+
+    return;
+  }
+
+  const total = readerHost.getLinearSpineCount();
+  const left = readerHost.getCurrentLinearIndex() + 1;
+  const visibleCount = readerHost.getVisibleSpineIndices().length;
+  const right = visibleCount > 1 ? left + 1 : undefined;
 
   position.textContent =
-    right !== undefined ? `${current}–${right} / ${total}` : `${current} / ${total}`;
+    right !== undefined ? `${left}–${right} / ${total}` : `${left} / ${total}`;
 }
 
 async function applyLayout(): Promise<void> {
@@ -148,10 +195,19 @@ async function applyLayout(): Promise<void> {
     return;
   }
 
-  setStatus('Re-measuring pages for new layout…');
+  if (readerHost.isPaginationEnabled()) {
+    setStatus('Re-measuring pages for new layout…');
+  }
+
   await readerHost.setLayout(getSelectedLayout());
   updatePosition();
-  setStatus(`Layout updated — ${readerHost.getTotalPages()} pages.`);
+
+  if (readerHost.isPaginationEnabled()) {
+    setStatus(`Layout updated — ${readerHost.getTotalPages()} pages.`);
+    return;
+  }
+
+  setStatus(`Layout updated — spine item ${readerHost.getCurrentLinearIndex() + 1}.`);
 }
 
 async function copySelectionCfi(): Promise<void> {
@@ -208,6 +264,7 @@ async function loadBook(): Promise<void> {
   const container = document.querySelector('#reader-container') as HTMLElement | null;
   const toolbar = document.querySelector('[data-testid="reader-toolbar"]') as HTMLElement | null;
   const cfiControls = document.querySelector('[data-testid="cfi-controls"]') as HTMLElement | null;
+  const paginationEnabled = isPaginationSelected();
 
   if (!urlInput || !container) {
     return;
@@ -224,29 +281,36 @@ async function loadBook(): Promise<void> {
     const publication = await reader.open(urlInput.value.trim());
     const bookVersion = getBookVersion();
 
-    setStatus('Measuring pages…');
+    if (paginationEnabled) {
+      setStatus('Measuring pages…');
+    }
 
     readerHost = await createReaderHost(publication, {
       container,
       layout: getSelectedLayout(),
-      bookVersion,
-      pageMapCache: createLocalStoragePageMapCache(),
-      onPaginateProgress: (detail) => {
-        if (detail.fromCache) {
-          setStatus('Loaded page map from cache…');
-          return;
-        }
+      pagination: paginationEnabled,
+      bookVersion: paginationEnabled ? bookVersion : undefined,
+      pageMapCache: paginationEnabled ? createLocalStoragePageMapCache() : undefined,
+      onPaginateProgress: paginationEnabled
+        ? (detail) => {
+            if (detail.fromCache) {
+              setStatus('Loaded page map from cache…');
+              return;
+            }
 
-        setStatus(
-          `Measuring ${detail.measuredChapters}/${detail.totalChapters} chapters…`,
-        );
-      },
-      onPaginateReady: (detail) => {
-        const source = detail.fromCache ? 'cache' : 'layout';
-        setStatus(
-          `Ready — ${detail.totalPages} pages (from ${source}). Version: ${bookVersion}.`,
-        );
-      },
+            setStatus(
+              `Measuring ${detail.measuredChapters}/${detail.totalChapters} chapters…`,
+            );
+          }
+        : undefined,
+      onPaginateReady: paginationEnabled
+        ? (detail) => {
+            const source = detail.fromCache ? 'cache' : 'layout';
+            setStatus(
+              `Ready — ${detail.totalPages} pages (from ${source}). Version: ${bookVersion}.`,
+            );
+          }
+        : undefined,
     });
 
     readerHost.on('chapterchange', () => updatePosition());
@@ -261,6 +325,12 @@ async function loadBook(): Promise<void> {
     }
 
     updatePosition();
+
+    if (!paginationEnabled) {
+      setStatus(
+        `Loaded ${publication.spine.itemrefs.length} spine items (spine navigation).`,
+      );
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to load EPUB';
 

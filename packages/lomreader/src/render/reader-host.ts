@@ -173,6 +173,10 @@ export class ReaderHost extends EventTarget {
     return this.layout;
   }
 
+  isPaginationEnabled(): boolean {
+    return this.paginationEnabled;
+  }
+
   async setLayout(layout: SpreadLayout): Promise<void> {
     this.assertActive();
 
